@@ -1,0 +1,99 @@
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset='utf-8' />
+      <title>Elecciones Buenos Aires</title>
+      <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+      <style>
+         body { margin:0; padding:0; }
+         h2,
+         h3 {margin: 10px;font-size: 1.2em;}
+         h3 {font-size: 1em;}
+         p {font-size: 0.85em; margin: 10px; text-align: left; }
+         #map { position:absolute; top:0; bottom:0; width:100%; }
+         #menu {
+         position: absolute;
+         z-index: 99999;
+         background: #fff;
+         padding: 10px;
+         font-family: 'Open Sans', sans-serif;
+         }
+         .map-overlay {
+         position: absolute;
+         bottom: 0;
+         right: 0;
+         background: rgba(255, 255, 255, 0.8);
+         margin-right: 20px;
+         font-family: Arial, sans-serif;
+         overflow: auto;
+         border-radius: 3px;
+         }
+         #features {
+         position: absolute;
+         top: 0;
+         height: 1050px;
+         margin-top: 20px;
+         width: 350px;
+         }
+
+      </style>
+   </head>
+   <body>
+      <div id='menu'>
+         <input id='cjq5sjorw4iba2sqfrbb9t8ny' type='radio' name='rtoggle' value='DN_2015' checked='checked'>
+         <label for='DN_2015'>Dip. Nac. 2015</label>
+         <input id='cjq5u4x4o2tp92rl7ka6b7tgx' type='radio' name='rtoggle' value='paso_2017'>
+         <label for='paso_2017'>(PASO) Dip. Nac. 2017</label>
+         <input id='cjq60igoib2x22rlan5vab05y' type='radio' name='rtoggle' value='DN_2017'>
+         <label for='DN_2017'>Dip. Nac. 2017</label>
+      </div>
+      <div id='map'></div>
+      <div class='map-overlay' id='features'>
+         <h2>Resultados electorales Buenos Aires</h2>
+         <div id='pd'>
+            <p>Hover over map. Use zoom.</p>
+         </div>
+      </div>
+      <div class='map-overlay' id='legend'></div>
+      <script>
+         mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dXRlaWdsZXNpYXMiLCJhIjoiY2ptdGN1bjViMDY4MzNxcDEyMXQ4ejU4bCJ9.wOgfXtbyetTot1CZN8D6Hg';
+         var map = new mapboxgl.Map({
+           container: 'map',
+           style: 'mapbox://styles/matuteiglesias/cjq5sjorw4iba2sqfrbb9t8ny',
+           center: [-58, -34],
+           zoom: 6
+         }); 
+         
+         map.getCanvas().style.cursor = 'default';
+         
+         
+         map.on('mousemove', function(e) {
+         var radios = map.queryRenderedFeatures(e.point, {
+         layers: ['circuitos-info-electoral']
+         });
+         var deptos = map.queryRenderedFeatures(e.point, {
+         layers: ['deptos-info-electoral']
+         });
+         
+         
+         var layerList = document.getElementById('menu');
+         var inputs = layerList.getElementsByTagName('input');
+         
+         function switchLayer(layer) {
+         var layerId = layer.target.id;
+         map.setStyle('mapbox://styles/matuteiglesias/' + layerId);
+         }
+         
+         for (var i = 0; i < inputs.length; i++) {
+         inputs[i].onclick = switchLayer;
+         }
+         
+      </script>
+   </body>
+</html>
+
+
